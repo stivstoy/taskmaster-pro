@@ -178,16 +178,21 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function(event) {
-    console.log("activate", this);
+    $("this").addClass("dropover");
+    $(".bottom-trash").addClass("dbottom-trash-drag");
+   // console.log("activate", this);
   },
   deactivate: function(event) {
-    console.log("deactivate", this);
+    $("this").removeClass("dropover");
+    $(".bottom-trash").removeClass("dbottom-trash-drag");
+    //console.log("deactivate", this);
   },
   over: function(event) {
-    console.log("over", event.target);
+    $("event.target").addClass("dropover-active");
   },
   out: function(event) {
-    console.log("out", event.target);
+    $("event.target").removeClass("dropover-active");
+   // console.log("out", event.target);
   },
   update: function(event) {
     // array to store the task data in
@@ -232,12 +237,14 @@ $("#trash").droppable({
   tolerance: "touch",
   drop: function(event, ui) {
     ui.draggable.remove();
+    $(".bottom-trash").removeClass("dbottom-trash-drag");
     console.log("drop");
   },
   over: function(event, ui) {
     console.log("over");
   },
   out: function(event, ui) {
+    $(".bottom-trash").removeclass("dbottom-trash-drag");
     console.log("out");
   }
 });
@@ -264,3 +271,9 @@ var auditTask = function(taskEl) {
     $(taskEl).addClass("list-group-item-warning");
   }
 };
+
+setInterval(function () {
+  $(".card .list-group-item").each(function(index, el) {
+    auditTask(el);
+  });
+},  (1000 * 60) * 30);
